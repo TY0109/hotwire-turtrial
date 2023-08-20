@@ -3,7 +3,11 @@
 <h1>Cats</h1>
 
 <%# ransackを利用した検索フォームでは、form_withの代わりにsearch_form_forを使う %>
-<%= search_form_for @search do |f| %>
+<%# <%= search_form_for @search do |f| %>
+<%# ①turbo_frame_tag外の検索フォームボタンを押下。data-turbo-frame属性を使って、どこのturbo-frame-tagかを指定 %>
+<%# ②turbo_frame_tagで囲んだ部分だけを置換 %>
+<%# リダイレクトする場合は、/cats → /cats?q%5Bname_cont%5D=あ&q%5Bage_eq%5D=&commit=検索とURLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
+<%= search_form_for @search, html: { data: { turbo_frame: "cats-list" } } do |f| %>
   <%# `カラム名_cont`とすることで、カラムに対してLIKEを使った曖昧一致検索ができる %>
   <%= f.label :name_cont, "名前" %>
   <%= f.search_field :name_cont %>
@@ -17,21 +21,25 @@
   <%= link_to "クリア", cats_path %>
 <% end %>
 
-<%# ソートのリンク。このリンクをクリックするとname属性でソートされる。あいうえお順またはその逆 %>
-<%= sort_link(@search, :name) %>
-<%# ソートのリンク。このリンクをクリックするとage属性でソートされる。若い順またはその逆 %>
-<%= sort_link(@search, :age) %>
+<%# ①turbo_frame_tag内のページ切り替えリンクを押下 %>
+<%# ②turbo_frame_tagで囲んだ部分だけを置換 %>
+<%# リダイレクトする場合は、/cats?page=2 → cats?page=3とURLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
+<%= turbo_frame_tag "cats-list" do %>
+  <%# ソートのリンク。このリンクをクリックするとname属性でソートされる。あいうえお順またはその逆 %>
+  <%= sort_link(@search, :name) %>
+  <%# ソートのリンク。このリンクをクリックするとage属性でソートされる。若い順またはその逆 %>
+  <%= sort_link(@search, :age) %>
+<%# ソートのリンクは<turbo-frame>内にあるので、自動的にTurbo Frameリクエストとして処理される。その結果、ソートリンクのクリック時にはソート結果となる一覧部分だけが置換されるようになっているよ。%>
 
-<div id="cats">
-  <% @cats.each do |cat| %>
-    <%= render cat %>
-    <p>
-      <%= link_to "Show this cat", cat %>
-    </p>
-  <% end %>
-</div>
+  <%= link_to "New cat", new_cat_path %>
 
-<%# ページネーションを表示する。ページ番号のリンク、次へ、前へ %>
-<%= paginate @cats %>
+  <%# 猫一覧表示 %>
+  <!-- Name: アーチー -->
+  <!-- Age: 0 -->
+  <!-- Name: アーロ -->
+  <!-- Age: 1 -->
+  <%= render @cats %>
 
-<%= link_to "New cat", new_cat_path %>
+  <%# ページネーションを表示する。ページ番号のリンク、次へ、前へ %>
+  <%= paginate @cats %>
+<% end %>
