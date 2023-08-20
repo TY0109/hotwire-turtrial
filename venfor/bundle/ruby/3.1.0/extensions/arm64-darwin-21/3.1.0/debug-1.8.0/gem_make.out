@@ -1,0 +1,16 @@
+current directory: /Users/yagitoshiki/Hotwire/cat-hotwire/venfor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+/Users/yagitoshiki/.rbenv/versions/3.1.2/bin/ruby -I /Users/yagitoshiki/.rbenv/versions/3.1.2/lib/ruby/site_ruby/3.1.0 extconf.rb
+creating Makefile
+
+current directory: /Users/yagitoshiki/Hotwire/cat-hotwire/venfor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230820-89443-mwdvhm sitelibdir\=./.gem.20230820-89443-mwdvhm clean
+
+current directory: /Users/yagitoshiki/Hotwire/cat-hotwire/venfor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230820-89443-mwdvhm sitelibdir\=./.gem.20230820-89443-mwdvhm
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.bundle
+
+current directory: /Users/yagitoshiki/Hotwire/cat-hotwire/venfor/bundle/ruby/3.1.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20230820-89443-mwdvhm sitelibdir\=./.gem.20230820-89443-mwdvhm install
+/usr/bin/install -c -m 0755 debug.bundle ./.gem.20230820-89443-mwdvhm/debug
