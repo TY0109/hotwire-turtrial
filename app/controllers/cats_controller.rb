@@ -45,6 +45,9 @@ class CatsController < ApplicationController
   # PATCH/PUT /cats/1
   def update
     if @cat.update(cat_params)
+      # show.htmlにリダイレクト
+      # _cat.html.erbをrender
+      # turbo_frame_tagで囲んだ部分(更新対象の猫データ)と、同じタグを共有する_form.html.erbを置換
       redirect_to @cat, notice: "Cat was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_entity
