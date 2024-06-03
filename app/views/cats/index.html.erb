@@ -1,9 +1,7 @@
-<p style="color: green"><%= notice %></p>
-
 <h1>Cats</h1>
-
-<%# ransackを利用した検索フォームでは、form_withの代わりにsearch_form_forを使う %>
-<%= search_form_for @search do |f| %>
+<%# submit時に、data-turbo-frame属性を使って、turbo_frame_tag "cats-list" 同士の置換を指定 
+(リンクをクリックした先のページの一部と、リンクをクリックする前のページの一部を置換 )%>
+<%= search_form_for @search, html: { data: { turbo_frame: "cats-list" } } do |f| %>
   <%# `カラム名_cont`とすることで、カラムに対してLIKEを使った曖昧一致検索ができる %>
   <%= f.label :name_cont, "名前" %>
   <%= f.search_field :name_cont %>
@@ -12,26 +10,35 @@
   <%= f.label :age_eq, "年齢" %>
   <%= f.search_field :age_eq %>
   <%= f.submit %>
-
-  <%# 検索結果と検索フォームをクリアする %>
+  
   <%= link_to "クリア", cats_path %>
 <% end %>
 
-<%# ソートのリンク。このリンクをクリックするとname属性でソートされる。あいうえお順またはその逆 %>
-<%= sort_link(@search, :name) %>
-<%# ソートのリンク。このリンクをクリックするとage属性でソートされる。若い順またはその逆 %>
-<%= sort_link(@search, :age) %>
+<%# 検索の場合の例) 全員表示と、「ア」で始まる名前を持つ者のみ表示を置換 %>
+<%# リダイレクトする場合は、/cats → /cats?q%5Bname_cont%5D=あ&q%5Bage_eq%5D=&commit=検索 とURLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
+<%# ページネーションの場合の例) 1ページ目の表示と2ページ目の表示を置換 %>
+<%# リダイレクトする場合は、/cats?page=2 → cats?page=3と URLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
+<%= turbo_frame_tag "cats-list" do %>
+  <%# ソートのリンク。このリンクをクリックするとname属性でソートされる。あいうえお順またはその逆 %>
+  <%= sort_link(@search, :name) %>
+  <%# ソートのリンク。このリンクをクリックするとage属性でソートされる。若い順またはその逆 %>
+  <%= sort_link(@search, :age) %>
 
-<div id="cats">
-  <% @cats.each do |cat| %>
-    <%= render cat %>
-    <p>
-      <%= link_to "Show this cat", cat %>
-    </p>
-  <% end %>
-</div>
-
-<%# ページネーションを表示する。ページ番号のリンク、次へ、前へ %>
-<%= paginate @cats %>
-
-<%= link_to "New cat", new_cat_path %>
+  <%= link_to "New cat", new_cat_path, data: { turbo_frame: "new_cat" }%>
+  <%= turbo_frame_tag "new_cat" %>
+  
+  <%# 猫一覧表示 %>
+  <div id="cats">
+    <%= render @cats %>
+  </div>
+  <%# 省略しない書き方
+  @cats.each do |cat|
+    render partial: "cat", locals: { cat: cat }
+  end
+  %>
+  
+  <%# ページネーションを表示する。ページ番号のリンク、次へ、前へ %>
+  <%# link押下時に、turbo_frame_tag "cats-list" 同士の置換を指定 
+  (ブロック内の要素と遷移後の要素を置換する) %>
+  <%= paginate @cats %>
+<% end %>

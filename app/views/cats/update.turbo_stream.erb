@@ -1,0 +1,6 @@
+<%# 編集フォームと詳細ページの要素を置換 %>
+<%= turbo_stream.update @cat %> <%# 教材ではreplaceになっているが、turbo_frame_tagの中身を更新するので、updateで良いのでは？ %>
+<%# id="flash"の要素にflashパーシャルをマウント %>
+<%= turbo_stream.update "flash", partial: "shared/flash" %>
+
+<%# TODO Flash表示に関しては他のところでも使うので、ビューヘルパーとして切り出しておく %>

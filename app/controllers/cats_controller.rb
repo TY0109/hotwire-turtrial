@@ -36,7 +36,8 @@ class CatsController < ApplicationController
     @cat = Cat.new(cat_params)
 
     if @cat.save
-      redirect_to @cat, notice: "Cat was successfully created."
+      # create.turbo_stream.erbを呼び出す
+      flash.now.notice = "ねこを登録しました。"
     else
       render :new, status: :unprocessable_entity
     end
@@ -45,7 +46,8 @@ class CatsController < ApplicationController
   # PATCH/PUT /cats/1
   def update
     if @cat.update(cat_params)
-      redirect_to @cat, notice: "Cat was successfully updated.", status: :see_other
+      # update.turbo_stream.erbを呼び出す
+      flash.now.notice = "ねこを更新しました。"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -54,7 +56,8 @@ class CatsController < ApplicationController
   # DELETE /cats/1
   def destroy
     @cat.destroy
-    redirect_to cats_url, notice: "Cat was successfully destroyed.", status: :see_other
+    # destroy.turbo_stream.erbを呼び出す
+    flash.now.notice = "ねこを削除しました。"
   end
 
   private
