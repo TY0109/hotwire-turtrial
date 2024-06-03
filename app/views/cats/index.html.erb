@@ -1,44 +1,55 @@
-<h1>Cats</h1>
-<%# submit時に、data-turbo-frame属性を使って、turbo_frame_tag "cats-list" 同士の置換を指定 
-(リンクをクリックした先のページの一部と、リンクをクリックする前のページの一部を置換 )%>
-<%= search_form_for @search, html: { data: { turbo_frame: "cats-list" } } do |f| %>
-  <%# `カラム名_cont`とすることで、カラムに対してLIKEを使った曖昧一致検索ができる %>
-  <%= f.label :name_cont, "名前" %>
-  <%= f.search_field :name_cont %>
+<p>stimulusの練習</p>
+<%# helloコントローラをアタッチする %>
+<div data-controller="hello">
+  <%# jsでの操作対象にtarget名を付ける %>
+  <input data-hello-target="name" type="text">
+  <%# ボタン押下時に、jsのhello#greetが呼ばれる(イベントハンドラ) %>
+  <button data-action="hello#greet">
+  <%# cf <button data-action="click->hello#greet">という書き方もOK %>
+    Greet
+  </button>
+  <%# jsでの操作対象にtarget名を付ける %>
+  <span data-hello-target="output">
+  </span>
+</div>
+-------------------------------------
+<p>stimulusの練習 perfect RORより</p>
+<!-- https://willnet.github.io/stimulus-slideshow-sample/public/ で挙動確認 -->
 
-  <%# `カラム名_eq`とすることで、カラムに対して完全一致検索ができる %>
-  <%= f.label :age_eq, "年齢" %>
-  <%= f.search_field :age_eq %>
-  <%= f.submit %>
-  
-  <%= link_to "クリア", cats_path %>
-<% end %>
+  <!-- slideshowコントローラをアタッチする -->
+  <!-- data-index属性 -->
+  <div data-controller="slideshow" data-slideshow-index="0">
+    
+    <%# ボタン押下時に、jsのslideshow#previousが呼ばれる(イベントハンドラ) %>
+    <button data-action="slideshow#previous">←</button>
+    <%# ボタン押下時に、jsのslideshow#nextが呼ばれる(イベントハンドラ) %>
+    <button data-action="slideshow#next">→</button>
 
-<%# 検索の場合の例) 全員表示と、「ア」で始まる名前を持つ者のみ表示を置換 %>
-<%# リダイレクトする場合は、/cats → /cats?q%5Bname_cont%5D=あ&q%5Bage_eq%5D=&commit=検索 とURLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
-<%# ページネーションの場合の例) 1ページ目の表示と2ページ目の表示を置換 %>
-<%# リダイレクトする場合は、/cats?page=2 → cats?page=3と URLが変わっていたが、部分置換の場合は、/catsのまま変わらない %>
-<%= turbo_frame_tag "cats-list" do %>
-  <%# ソートのリンク。このリンクをクリックするとname属性でソートされる。あいうえお順またはその逆 %>
-  <%= sort_link(@search, :name) %>
-  <%# ソートのリンク。このリンクをクリックするとage属性でソートされる。若い順またはその逆 %>
-  <%= sort_link(@search, :age) %>
-
-  <%= link_to "New cat", new_cat_path, data: { turbo_frame: "new_cat" }%>
-  <%= turbo_frame_tag "new_cat" %>
-  
-  <%# 猫一覧表示 %>
-  <div id="cats">
-    <%= render @cats %>
+    <%# jsでの操作対象にtarget名を付ける %>
+    <div data-slideshow-target="slide" class="slide">起</div>
+    <div data-slideshow-target="slide" class="slide">承</div>
+    <div data-slideshow-target="slide" class="slide">転</div>
+    <div data-slideshow-target="slide" class="slide">結</div>
+    <!-- cf <div data-target="slideshow.slide" class="slide">起</div> という書き方もOK -->
   </div>
-  <%# 省略しない書き方
-  @cats.each do |cat|
-    render partial: "cat", locals: { cat: cat }
-  end
-  %>
-  
-  <%# ページネーションを表示する。ページ番号のリンク、次へ、前へ %>
-  <%# link押下時に、turbo_frame_tag "cats-list" 同士の置換を指定 
-  (ブロック内の要素と遷移後の要素を置換する) %>
-  <%= paginate @cats %>
-<% end %>
+
+<style>
+  body {
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+}
+
+.slide{
+  display: none;
+}
+
+.slide.slide--current{
+  display: block;
+}
+</style>
+
+-------------------------------------
+<p>stimulusの練習 ライフサイクルコールバック</p>
+<div data-lifecycle-target="example" data-controller="lifecycle">
+  <button data-action="lifecycle#removeElement">削除</button>
+  <button data-action="lifecycle#detachController">削除</button>
+</div>
