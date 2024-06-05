@@ -1,0 +1,7 @@
+<%= turbo_stream.after "users" do %>
+  <%= turbo_frame_tag 'items' do %>
+    <% @items.each do |item| %>
+      <div id="<%= dom_id item %>"><%= item.name %></div>
+    <% end %>
+  <% end %>
+<% end  %>

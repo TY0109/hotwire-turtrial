@@ -110,3 +110,14 @@ Cat.create(
     {name: "ジャック", age: 19 },
   ]
 )
+
+User.create(name: "ユーザー1")
+User.create(name: "ユーザー2")
+User.create(name: "ユーザー3")
+User.create(name: "ユーザー4")
+User.create(name: "ユーザー5")
+User.create(name: "ユーザー6")
+
+Item.create(name: "アイテム1")
+Item.create(name: "アイテム2")
+Item.create(name: "アイテム3")

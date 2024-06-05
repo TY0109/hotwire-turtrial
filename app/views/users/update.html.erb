@@ -1,0 +1,5 @@
+<%= turbo_stream.update "users" do %>
+  <% @users.each do |user| %>
+    <div id="<%= dom_id user %>"><%= user.name %></div>
+  <% end %>
+<% end  %>

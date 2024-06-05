@@ -1,0 +1,60 @@
+<%= turbo_frame_tag 'users' do %>
+ <% @users.each do |user| %>
+    <div id="<%= dom_id user %>"><%= user.name %></div>
+  <% end %>
+<% end %>
+
+<%# append %>
+<%# appendリンク押下で、%>
+<%# turbo_frame_tag 'users'内に、turbo_stream.append "users"の内容を追加 %>
+<%= turbo_frame_tag 'append' do %>
+  <%= link_to 'append', append_path %>
+<% end %>
+
+<%# prepend %>
+<%= turbo_frame_tag 'prepend' do %>
+  <%= link_to 'prepend', prepend_path %>
+<% end %>
+
+<%# before %>
+<%# beforeリンク押下で、%>
+<%# turbo_frame_tag 'users'の前に、turbo_stream.before "users"の内容を配置 %>
+<%= turbo_frame_tag 'before' do %>
+  <%= link_to 'before', before_path %>
+<% end %>
+
+<%# after %>
+<%= turbo_frame_tag 'after' do %>
+  <%= link_to 'after', after_path %>
+<% end %>
+
+<%# update %>
+<%# updateリンク押下で、%>
+<%# turbo_frame_tag 'users'内を、turbo_stream.update "users"の内容で更新 %>
+<%= turbo_frame_tag 'update' do %>
+  <%= link_to 'update', update_path %>
+<% end %>
+<%# 実行後
+<turbo_frame_tag 'users' 
+ <div id="user_4">ユーザー4</div>
+ <div id="user_5">ユーザー4</div>
+ <div id="user_6">ユーザー4</div>
+%>
+
+<%# replace %>
+<%# replaceリンク押下で、%>
+<%# turbo_frame_tag 'users'と、turbo_stream.replace "users"の内容を置換 %>
+<%= turbo_frame_tag 'replace' do %>
+  <%= link_to 'replace', replace_path %>
+<% end %>
+<%# 実行後
+<turbo_frame_tag 'items' 
+ <div id="item_1">アイテム1</div>
+ <div id="item_2">アイテム2</div>
+ <div id="item_3">アイテム3</div>
+%>
+
+<%# remove %>
+<%= turbo_frame_tag 'remove' do %>
+  <%= link_to 'remove', remove_path %>
+<% end %>
