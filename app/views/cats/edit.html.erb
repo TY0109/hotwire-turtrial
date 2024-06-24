@@ -1,1 +1,4 @@
-<%= render "form", cat: @cat %>
+<%= render "shared/modal", title: "編集" do %>
+  <%= render "form", cat: @cat %>
+<% end %>
+

@@ -1,5 +1,6 @@
 <%= turbo_frame_tag cat do %>
-  <%= form_with(model: cat) do |form| %>
+  <%# turbo:submit-end（Turboのsubmit後）イベント発火時に、modal#close（モーダルを閉じる）を実行する %>
+  <%= form_with(model: cat, data: { action: "turbo:submit-end->modal#close" }) do |form| %>
     <% if cat.errors.any? %>
       <div style="color: red">
         <h2><%= pluralize(cat.errors.count, "error") %> prohibited this cat from being saved:</h2>
